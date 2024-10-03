@@ -1,0 +1,19 @@
+.loopCircle {
+  display: flex;
+}
+
+.loopCircle::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 4px solid #dddddd;
+  border-top-color: #3b86ff;
+  border-radius: 50%;
+  animation: loopCircle 0.75s ease infinite;
+}
+
+@keyframes loopCircle {
+  to {
+    transform: rotate(1turn);
+  }
+}
