@@ -39,6 +39,11 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
+
+    * {
+    scrollbar-width: none;
+    scrollbar-color: #f4f5fa #fff;
+  }
 }
 
 input[type="password"]::-ms-reveal,
@@ -46,4 +51,112 @@ input[type="password"]::-ms-clear {
   display: none;
 }
 
+.label-default {
+  transform: translateY(0);
+}
+
+.label-translated {
+  transform: translateY(-50%);
+}
+
+.show-scrollbar {
+  overflow: auto; 
+  scrollbar-width: thin; 
+  scrollbar-color: #3b86ff #fff;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3b86ff; 
+  border-radius: 10px;
+}
+
 /* =================================================================> add services style */
+
+.iconWrapper {
+  background-color: white;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; /* lg equivalent */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* shadow-sm equivalent */
+  transition: all 0.5s ease; /* transition-all duration-500 equivalent */
+}
+
+.iconWrapper:hover {
+  background-color: rgba(169, 169, 169, 0.8); /* gray-200/80 equivalent */
+}
+
+.box {
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(65, 138, 255, 0.08);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.zoom-in {
+  animation: zoomIn 0.2s ease-out forwards;
+}
+
+.zoom-out {
+  animation: zoomOut 0.2s ease-in forwards;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleUpLTR {
+  0% {
+    transform: scale(0) translateX(100%);
+    border-radius: 50%;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateX(0);
+    border-radius: 0.375rem;
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUpRTL {
+  0% {
+    transform: scale(0) translateX(-100%);
+    border-radius: 50%;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateX(0);
+    border-radius: 0.375rem;
+    opacity: 1;
+  }
+}
+
+.dropdown-ltr {
+  animation: scaleUpLTR 0.3s ease-in-out forwards;
+  transform-origin: top right;
+}
+
+.dropdown-rtl {
+  animation: scaleUpRTL 0.3s ease-in-out forwards;
+  transform-origin: top left;
+}

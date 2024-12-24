@@ -9,8 +9,6 @@ import { useEffect, useRef, useState } from "react";
 
 export const useClose = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  // mouseRef should reference an HTML element
   const mouseRef = useRef<HTMLElement | null>(null);
 
   const reverseFunction = (bool?: boolean) => {

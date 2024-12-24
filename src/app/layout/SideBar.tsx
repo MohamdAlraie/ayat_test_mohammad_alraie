@@ -1,72 +1,117 @@
 import { useTranslation } from "react-i18next";
-import { AiOutlineHome } from "react-icons/ai";
-import { BsHospital } from "react-icons/bs";
-import { FaRegHospital, FaUserNurse } from "react-icons/fa";
-import { GiMedicines } from "react-icons/gi";
-import {
-  MdOutlineLocalOffer,
-  MdOutlineScreenSearchDesktop,
-} from "react-icons/md";
-import { RiDonutChartFill } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import "./Sidebar.css";
+import { NavLink, useMatch } from "react-router-dom";
+import ic_dome from "../../assets/images/icons/logo.svg";
+import Home from "../../assets/images/icons/home.svg";
+import Drivers from "../../assets/images/icons/Drivers.svg";
+import Admins from "../../assets/images/icons/Admins.svg";
+import Users from "../../assets/images/icons/Users.svg";
+import Trips from "../../assets/images/icons/Trips.svg";
+import LastTrips from "../../assets/images/icons/LastTrips.svg";
+import Buses from "../../assets/images/icons/Buses.svg";
+import Settings from "../../assets/images/icons/Setting.svg";
+import { t } from "i18next";
 
-function SideBar() {
-  const { t, i18n } = useTranslation();
-  const profile = useAppSelector((state) => state.auth.user);
+// Sidebar component
+const Sidebar: React.FC = () => {
   const sidebar = [
-    { icon: AiOutlineHome, link: "/home", name: t("nav_home") },
     {
-      icon: BsHospital,
-      link: "/my-institutions",
-      name: t("nav_myInstitutions"),
+      to: "/home",
+      icon: Home,
+      label: "home",
+      title: "overview",
     },
     {
-      icon: FaRegHospital,
-      link: "/institutions",
-      name: t("nav_institutions"),
-    },
-    { icon: GiMedicines, link: "/drugs", name: t("nav_drugs") },
-    {
-      icon: FaUserNurse,
-      link: "/doctor-online",
-      name: t("nav_doctorOnline"),
+      to: "/drivers",
+      icon: Drivers,
+      label: "drivers",
+      title: "users",
     },
     {
-      icon: MdOutlineScreenSearchDesktop,
-      link: "/search-drugs",
-      name: t("nav_searchDrugs"),
+      to: "/admins",
+      icon: Admins,
+      label: "admins",
     },
-    { icon: MdOutlineLocalOffer, link: "/offers", name: t("nav_offers") },
+    {
+      to: "/users",
+      icon: Users,
+      label: "users",
+    },
+    {
+      to: "/trips",
+      icon: Trips,
+      label: "trips",
+      title: "management",
+    },
+    {
+      to: "/last_trips",
+      icon: LastTrips,
+      label: "last_trips",
+    },
+    {
+      to: "/buses",
+      icon: Buses,
+      label: "buses",
+    },
+    {
+      to: "/settings",
+      icon: Settings,
+      label: "settings",
+    },
   ];
 
   return (
-    <div
- className={`navigation ${i18n.language} overflow-hidden bg-white w-72 max-md:w-14 rounded-2xl h-[70vh]`}
-    >
-      <ul className="w-full py-4">
-        <li className="flex items-center gap-2 mb-5 md:px-4 max-md:px-2">
-          <img src={profile?.image} alt="" className="w-9 h-9 rounded-full" />
-          <span className="font-semibold text-lg max-md:hidden">
-            {profile?.username}
-          </span>
-          <RiDonutChartFill className="text-Main w-8 h-8" />
-        </li>
+    <nav className="fixed bottom-0 z-10 m-0 h-16 w-screen shrink-0 bg-Third text-silver md:static md:mx-0 md:block md:h-screen md:w-[240px] md:flex-col px-3">
+      <img src={ic_dome} alt="Logo" className="mb-2 mt-8" />
+      <div className="flex h-full w-full justify-between gap-1 max-md:items-center md:mt-4 md:flex-col md:justify-start">
         {sidebar.map((e, i) => (
-          <li key={i} className="mb-2 md:ps-4">
-            <NavLink
-              to={e.link}
-      className={`flex items-center hover:bg-[#f5f6fa] gap-4 rounded ${i18n.language == "ar" && " -translate-x-6"}  hover:text-white py-2 px-4 rounded-l-full transition-all`}
-            >
-              <e.icon className="w-5 h-5 max-md:w-7 max-md:h-7" />
-              <span className="ml-3 text-sm max-md:hidden">{e.name}</span>
-            </NavLink>
-          </li>
+          <div key={i}>
+            {e.title && (
+              <h2 className="text-DarkGray px-2 my-3 uppercase">
+                {t(e.title)}
+              </h2>
+            )}
+            <SidebarLink to={e.to} icon={e.icon} label={t(e.label)} />
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </nav>
   );
+};
+
+export default Sidebar;
+
+interface SidebarLinkProps {
+  to: string;
+  icon: string;
+  label: string;
 }
 
-export default SideBar;
+const SidebarLink: React.FC<SidebarLinkProps> = ({ to, icon, label }) => {
+  const { t } = useTranslation();
+  const match = useMatch({
+    path: to,
+    end: true,
+  });
+  const isActive = !!match;
+
+  return (
+    <NavLink
+      to={to}
+      className={`flex flex-col items-center gap-3 md:flex-row p-2 rounded-full hover:text-Main hover:bg-Secondary/20 transition-all duration-400 ${
+        isActive ? "text-Main bg-Secondary/20" : "text-DarkGray"
+      }`}
+    >
+      <img
+        className="h-6"
+        style={{
+          filter: isActive
+            ? "invert(40%) sepia(100%) saturate(500%) hue-rotate(480deg)"
+            : "none",
+        }}
+        alt={label}
+        src={icon}
+      />
+      <span>{t(label)}</span>
+    </NavLink>
+  );
+};

@@ -23,11 +23,9 @@ export const loginUser = async (
     {
       username,
       password,
-      expiresInMins: 30,
     },
     {
       headers: { "Content-Type": "application/json" },
-      // Removed withCredentials: true
     }
   );
 
@@ -44,7 +42,6 @@ export const refreshTokenApi = async (
     },
     {
       headers: { "Content-Type": "application/json" },
-    //   withCredentials: true,
     }
   );
   return response.data.accessToken;
